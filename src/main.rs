@@ -10,11 +10,11 @@ fn main() {
     // Create a new config
     let config = match Config::new(&args) {
         Ok(c) => {
-            println!("Searching {} in file {}\n", c.query, c.file);
+            println!("Searching {} in file {}...\n", c.query, c.file);
             c
         },
         Err(err) => {
-            println!("Error: {}", err);
+            println!("{}", err);
             process::exit(1);
         }
     };

@@ -9,7 +9,7 @@ pub struct Config {
 impl Config {
     pub fn new (args: &[String]) -> Result<Config, &str> {
         if args.len() < 3 {
-            return Err("Missing arguments");
+            return Err("Usage: minigrep [file] [query]");
         }
 
         let file = &args[1].clone();
@@ -20,18 +20,18 @@ impl Config {
     }
 }
 
-pub fn run (config: Config) -> Result<(), &'static str> {
+pub fn run (config: Config) -> Result<(), String> {
     // Open file
-    let mut file = match File::open(config.file) {
+    let mut file = match File::open(&config.file) {
         Ok(f) => f,
-        Err(_) => return Err("File not found")
+        Err(_) => return Err(format!("Cannot find file {}", &config.file))
     };
 
     // Dump file contents
     let mut data = String::new();
     match file.read_to_string(&mut data) {
         Ok(s) => s,
-        Err(_) => return Err("Cannot open file")
+        Err(_) => return Err(format!("Cannot open file {}", &config.file))
     };
 
     // Search data
